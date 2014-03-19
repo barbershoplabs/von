@@ -44,20 +44,16 @@ module Von
     counter = Counters::Total.new(field)
     total   = counter.increment(value)
 
-    if config.periods_defined_for_counter?(counter)
-      periods = config.periods[counter.field]
-      Counters::Period.new(counter.field, periods).increment(value)
-    end
+    periods = [Period.new(:daily, 30), Period.new(:weekly, 52), Period.new(:monthly, 12), Period.new(:yearly, 2)]
+    Counters::Period.new(counter.field, periods).increment(value)
 
     if config.bests_defined_for_counter?(counter)
       periods = config.bests[counter.field]
       Counters::Best.new(counter.field, periods).increment(value)
     end
 
-    if config.currents_defined_for_counter?(counter)
-      periods = config.currents[counter.field]
-      Counters::Current.new(counter.field, periods).increment(value)
-    end
+    periods = [Period.new(:daily, 30), Period.new(:weekly, 52), Period.new(:monthly, 12), Period.new(:yearly, 2)]
+    Counters::Current.new(counter.field, periods).increment(value)
 
     total
   end

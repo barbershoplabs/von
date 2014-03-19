@@ -25,6 +25,7 @@ module Von
 
     def per(unit)
       periods = Von.config.periods[@field]
+      periods = [Period.new(:daily, 30), Period.new(:weekly, 52), Period.new(:monthly, 12), Period.new(:yearly, 2)]
 
       if Period.time_unit_exists?(unit)
         Counters::Period.new(@field, periods).count(unit)
